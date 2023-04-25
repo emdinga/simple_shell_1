@@ -16,6 +16,8 @@
 #define MAX_ARGS 10
 #define BUFFER_SIZE 1024
 #define MAX_XOMMAND_LENGHT 1024
+#define MAX_COMMAND_LENGHT 256
+#define PROMPT ">> "
 
 static char buf[BUFFER_SIZE];
 static char *buf_ptr = buf;
@@ -54,5 +56,7 @@ void setenv_command(command *cmd);
 void unsetenv_command(command *cmd);
 void cd_command(command *cmd);
 char *getline_custom(int (*get_char)(void));
+int main(void);
+void execute_command(char *command);
 
 #endif

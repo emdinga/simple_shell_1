@@ -1,22 +1,45 @@
 #include "shell.h"
 
 /**
- * display_prompt - Main function to prompt a user
- *
- * Return: 0 success
-*/
+ * execute_command - Main function to prompt a user
+ * @command: parameter value
+ * Return: 0
+ */
 
-void display_prompt(void)
+void execute_command(char *command)
 {
-	char cwd[1024];
+	pid_t pid;
+	int status;
+	/*create a new process to execute the command */
 
-	if (getcwd(cwd, sizeof(cwd)) != NULL)
+	pid = fork();
+
+	if (pid == 0)
 	{
-		printf("%s> ", cwd);
+		/*child process*/
+		char *argv[] = { command, NULL };
+		char *envp[] = { NULL };
+
+		if (execve(command, argv, envp) == -1)
+
+		{
+			fprintf(stderr, "Error: could not execute '%s'.\n", command);
+			exit(EXIT_FAILURE);
+		}
+	}
+	else if (pid > 0)
+	{
+		/*parent process*/
+		if (waitpid(pid, &status, 0) < 0)
+		{
+			fprintf(stderr, "Error: waitpid failed.\n");
+			exit(EXIT_FAILURE);
+		}
 	}
 	else
 	{
-		perror("getcwd() error");
+		/* Fork failed */
+		fprintf(stderr, "Error: fork failed.\n");
 		exit(EXIT_FAILURE);
 	}
 }
