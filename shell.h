@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #ifndef SHELL_H
 #define SHELL_H
 
@@ -39,5 +40,18 @@ void setenv_command(command *cmd);
 void unsetenv_command(command *cmd);
 void cd_command(command *cmd);
 char *getline_custom(int (*get_char)(void));
+=======
+#ifndef _SHELL_H_
+#define _SHELL_H_
+
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/wait.h>
+#include <sys/types.h>
+
+#define MAX_XOMMAND_LENGHT 1024
+>>>>>>> 91f868614294a52d641db835b7f81d4936567030
 
 #endif
