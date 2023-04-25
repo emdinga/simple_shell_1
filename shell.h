@@ -19,10 +19,12 @@
 #define MAX_COMMAND_LENGHT 256
 #define PROMPT ">> "
 
-static char buf[BUFFER_SIZE];
-static char *buf_ptr = buf;
+static char buffer[BUFFER_SIZE];
+/*static char *buf_ptr = buf;*/
 static size_t buf_len;
 extern char **environ;
+static int chars_left;
+static char *cursor = buffer;
 
 /**
  * struct Command - struct function for command
@@ -57,6 +59,8 @@ void unsetenv_command(command *cmd);
 void cd_command(command *cmd);
 char *getline_custom(int (*get_char)(void));
 int main(void);
-void execute_command(char *command);
+int execute_command(char **args);
+char **split_input(char *input);
+void handle_user_input(void);
 
 #endif
