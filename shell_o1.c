@@ -2,6 +2,7 @@
 
 /**
  * main - entry point of thr program
+ * @args: the actual argument
  * fgets - reads commands from users
  * fork - create child process
  * Return: NULL if fgets encounters the end-of-file character, program exits
