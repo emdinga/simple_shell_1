@@ -1,38 +1,41 @@
 #include "shell.h"
-
+#include <stdlib.h>
+#include <unistd.h>
 /**
  * execute_command - Executes a command
- * @args: An array of arguments for the command
+ * @cmd: An array of arguments for the command
  *
  * Return: 1 if successful, 0 otherwise
  */
-int execute_command(char **args)
+void execute_command(char *cmd)
 {
+	extern char **environ;
 	pid_t pid;
 	int status;
 
 	pid = fork();
-	if (pid == 0)
+	if  (pid == 0)
 	{
-		/* Child process */
-		if (execvp(args[0], args) == -1)
+		/*child process*/
+		char *args[] = {cmd, NULL};
+
+		if (execve(cmd, args, environ) == -1)
 		{
-			perror("Error");
+			perror(cmd);
+			exit(EXIT_FAILURE);
 		}
-		exit(EXIT_FAILURE);
-	}
-	else if (pid < 0)
-	{
-		/* Forking error */
-		perror("Error");
-	}
-	else
-	{
-		/* Parent process */
-		do {
-			waitpid(pid, &status, WUNTRACED);
+		else if (pid < 0)
+		{
+			/*forking erroe*/
+			perror("fork");
 		}
-	while (!WIFEXITED(status) && !WIFSIGNALED(status));
+		else
+		{
+			/*parent process*/
+			do {
+				waitpid(pid, &status, WUNTRACED);
+			}
+			while (!WIFEXITED(status) && !WIFSIGNALED(status));
+		}
 	}
-	return (1);
 }

@@ -6,39 +6,36 @@
  * fork - create child process
  * Return: NULL if fgets encounters the end-of-file character, program exits
  */
+
 int main(void)
 {
-	char command[MAX_XOMMAND_LENGHT + 1];
-	char *args[2];
-	pid_t pid;
+	char cmd[MAX_COMMAND_LENGTH];
 
 	while (1)
 	{
-	printf("#cisfun$");
-	fflush(stdout);
-	if (fgets(command, MAX_XOMMAND_LENGHT, stdin) == NULL)
-	break;
-	}
-	command[strcspn(command, "\n")] = '\0';
-	pid = fork();
-	if (pid == -1)
-	{
-	perror("fork");
-	exit(EXIT_FAILURE);
-	}
-	else if (pid == 0)
-	{
-		args[0] = command;
-		args[1] = NULL;
-		if (execve(command, args, NULL) == -1)
+		display_prompt();
+		if (fgets(cmd, MAX_COMMAND_LENGTH, stdin) == NULL)
 		{
-			exit(EXIT_FAILURE);
+			printf("\n");
+			break;
 		}
-	else
-	{
-		int status;
-	waitpid(pid, &status, 0);
-	}
+		cmd[strcmp(cmd, "\n")] = '\0'; /*remove trailing newlines*/
+
+		if (strcmp(cmd, "exit") == 0)
+		{
+			break;
+		}
+		if (cmd[0] == '/')
+		{
+			execute_command(&cmd[0]);
+		}
+		else
+		{
+			char full_cmd[MAX_COMMAND_LENGTH + 10]; /*adding space for bin*/
+
+			snprintf(full_cmd, MAX_COMMAND_LENGTH + 10, "/bin/%s", cmd);
+			execute_command(&full_cmd[0]);
+		}
 	}
 	return (0);
 }

@@ -12,7 +12,10 @@
 #include <fcntl.h>
 #include <errno.h>
 
-#define MAX_XOMMAND_LENGHT 1024
-#define PROMPT "$"
+#define MAX_COMMAND_LENGTH 1024
+#define PROMPT "#cisfun$ "
+
+void execute_command(char *cmd);
+void display_prompt(void);
 
 #endif
