@@ -15,7 +15,7 @@ int main(void)
 
 	while (1)
 	{
-	printf("$");
+	printf("#cisfun$");
 	fflush(stdout);
 	if (fgets(command, MAX_XOMMAND_LENGHT, stdin) == NULL)
 	break;
