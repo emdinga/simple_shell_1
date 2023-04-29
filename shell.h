@@ -12,10 +12,8 @@
 #include <fcntl.h>
 #include <errno.h>
 
-#define MAX_COMMAND_LENGTH 1024
-#define PROMPT "#cisfun$ "
-
-void execute_command(char *cmd);
-void display_prompt(void);
+#define MAX_COMMAND_LENGTH 1024;
+#define MAX_ARGS 16;
+ssize_t getline(char **lineptr, size_t *n, FILE *stream);
 
 #endif
